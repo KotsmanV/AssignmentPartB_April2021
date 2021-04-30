@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomDataGenerator.cs" />
     <Compile Include="Student.cs">
       <DependentUpon>PrivateSchoolDBModel2.tt</DependentUpon>
     </Compile>

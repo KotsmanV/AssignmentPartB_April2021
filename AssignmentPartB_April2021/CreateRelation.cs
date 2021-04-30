@@ -24,15 +24,16 @@ namespace AssignmentPartB_April2021
             DateTime endDate;
 
             tv.ViewCourses();
-            tv.ViewTrainers();
 
             Console.Write("Select a Course by typing the ID: ");
             courseID = int.Parse(Console.ReadLine());
-            
+
+            tv.ViewTrainers();
+
             Console.Write("Select a Trainer by typing the ID: ");
             trainerID = int.Parse(Console.ReadLine());
             
-            Console.Write("Starting Date: ");
+            Console.WriteLine("Starting Date: ");
             startDate = DateTime.Parse(Console.ReadLine());
             
             Console.Write("Ending Date: ");
@@ -53,6 +54,7 @@ namespace AssignmentPartB_April2021
             {            
                 dbContext.AvailableCourses.Add(ac);
                 dbContext.SaveChanges();
+                Console.WriteLine("Changes saved to database.");
             }
             else
                 Console.WriteLine("Changes not committed. Please retry.");
@@ -113,6 +115,7 @@ namespace AssignmentPartB_April2021
             if (input.Equals("y"))
             {
                 dbContext.SaveChanges();
+                Console.WriteLine("Changes saved to database.");
             }
             else
                 Console.WriteLine("Changes not committed. Please retry.");
@@ -174,6 +177,7 @@ namespace AssignmentPartB_April2021
             if (input.Equals("y"))
             {
                 dbContext.SaveChanges();
+                Console.WriteLine("Changes saved to database.");
             }
             else
                 Console.WriteLine("Changes not committed. Please retry.");

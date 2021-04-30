@@ -45,6 +45,7 @@ namespace AssignmentPartB_April2021
             {
                 dbContext.Courses.Add(course);
                 dbContext.SaveChanges();
+                Console.WriteLine("Changes saved to database.");
             }
             else
                 Console.WriteLine("Changes not committed. Please retry.");
@@ -76,6 +77,7 @@ namespace AssignmentPartB_April2021
             {
                     dbContext.Students.Add(student);
                     dbContext.SaveChanges();
+                    Console.WriteLine("Changes saved to database.");
             }
             else
                 Console.WriteLine("Changes not committed. Please retry.");
@@ -105,7 +107,8 @@ namespace AssignmentPartB_April2021
             {
                 dbContext.Trainers.Add(trainer);
                 dbContext.SaveChanges();
-                
+                Console.WriteLine("Changes saved to database.");
+
             }
             else
                 Console.WriteLine("Changes not committed. Please retry.");
@@ -130,6 +133,7 @@ namespace AssignmentPartB_April2021
             {
                     dbContext.Assignments.Add(assignment);
                     dbContext.SaveChanges();
+                    Console.WriteLine("Changes saved to database.");
             }
             else
                 Console.WriteLine("Changes not committed. Please retry.");

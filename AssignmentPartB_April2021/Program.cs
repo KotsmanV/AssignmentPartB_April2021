@@ -11,38 +11,31 @@ namespace AssignmentPartB_April2021
     {
         static void Main(string[] args)
         {
+
+            //TODO 16: Fix random courses
+            //TODO 17: Fix random assignments
+            //TODO 18: Fix random data in general
+
+            RandomDataGenerator rDG = new RandomDataGenerator();
+            //for (int i = 0; i < 24; i++)
+            //{
+            //    rDG.CreateRandomStudent();
+            //}
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    rDG.CreateRandomTrainer();
+            //}
+            //rDG.RandomAvailableCourse();
+            //rDG.RandomActiveCourse();
+            //rDG.AddRandomAssignments();
+
+
             Menu menu = new Menu();
             bool showMenu = true;
             while (showMenu)
             {
                 showMenu = menu.MainMenu();
             }
-
-            //TableView tv = new TableView();
-            //CreateRelation cr = new CreateRelation();
-            //tv.ViewCourses();
-            //Console.WriteLine();
-
-            //Console.WriteLine();
-            //tv.ViewTrainers();
-            //Console.WriteLine();
-            //tv.ViewAssignments();
-            //Console.WriteLine();
-            //tv.ViewTrainersPerCourse();
-            //tv.ViewStudentsPerCourse();
-            //tv.ViewAvailableCourses();
-            //cnc.CreateCourse();
-
-            //cnc.CreateStudent();
-            //cnc.ViewStudents();
-            //cnc.CreateTrainer();
-            //tv.ViewTrainers();
-
-            //cr.CreateAvailableCourse();
-            //tv.ViewActiveCourses();
-            //cr.CreateActiveCourse();
-
-            //cr.CreateActiveAssignment();
         }
     }
 }

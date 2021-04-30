@@ -219,9 +219,9 @@ namespace AssignmentPartB_April2021
                 case "2":
                     tv.ViewAssignmentsPerCourse();
 
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Feature not yet available");
-                    Console.ResetColor();
+                    //Console.ForegroundColor = ConsoleColor.Red;
+                    //Console.WriteLine("Feature not yet available");
+                    //Console.ResetColor();
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
@@ -229,9 +229,9 @@ namespace AssignmentPartB_April2021
                 case "3":
                     tv.ViewAssignmentsPerStudent();
 
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Feature not yet available");
-                    Console.ResetColor();
+                    //Console.ForegroundColor = ConsoleColor.Red;
+                    //Console.WriteLine("Feature not yet available");
+                    //Console.ResetColor();
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();

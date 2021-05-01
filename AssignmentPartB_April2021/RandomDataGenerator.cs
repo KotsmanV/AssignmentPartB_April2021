@@ -36,7 +36,7 @@ namespace AssignmentPartB_April2021
         private DateTime[] dates = { new DateTime(2020, 9, 15), new DateTime(2021, 1, 15), new DateTime(2021,6,15) };
 
         private DateTime birthday = new DateTime(1980,1,1);
-
+        private bool exists = false;
         public void CreateRandomStudent()
         {
             Student student = new Student()
@@ -85,12 +85,7 @@ namespace AssignmentPartB_April2021
                 foreach (var course in courses)
                 {
 
-                    var availCourses = (
-                                            from avCr in dbContext.AvailableCourses
-                                            select avCr
-                                        ).ToList();
-
-                    if (trainer.Subject.Equals(course.Title))
+                    if (trainer.Subject.Trim().Equals(course.Title.Trim()))
                     {
                         AvailableCourse ac = new AvailableCourse();
                         ac.TrainerID = trainer.ID;
@@ -107,12 +102,12 @@ namespace AssignmentPartB_April2021
                                         select tr
                                      ).FirstOrDefault();
                         
-                        if (ac.Course.Type.Equals("Full Time"))
+                        if (ac.Course.Type.Trim().Equals("Full Time"))
                         {
                             ac.StartDate = dates[0];
                             ac.EndDate = dates[2];
                         }
-                        else if(ac.Course.Type.Equals("Part Time"))
+                        else if(ac.Course.Type.Trim().Equals("Part Time"))
                         {
                             ac.StartDate = dates[rnd.Next(0, 1)];
                             if (ac.StartDate.Equals(dates[0]))
@@ -123,37 +118,33 @@ namespace AssignmentPartB_April2021
                                 ac.EndDate = dates[2];                            
                         }
 
+                        var availCourses = (
+                                            from avCr in dbContext.AvailableCourses
+                                            select avCr
+                                            ).ToList();
+                        exists = false;
+                        
                         foreach (var avC in availCourses)
                         {
-                            if (avC.CourseID==ac.CourseID)
+                            if (ac.CourseID==avC.CourseID)
                             {
-                                if (avC.TrainerID!=ac.CourseID)
+                                if (avC.TrainerID == ac.TrainerID)
                                 {
-                                    dbContext.AvailableCourses.Add(ac);
-                                    Console.WriteLine("Press key to Add Courses");
-                                    Console.ReadKey();
-                                    dbContext.SaveChanges();
-                                }
-                            }
-                            else if (avC.TrainerID==ac.TrainerID)
-                            {
-                                if (avC.CourseID!=ac.CourseID)
-                                {
-                                    dbContext.AvailableCourses.Add(ac);
-                                    Console.WriteLine("Press key to Add Courses");
-                                    Console.ReadKey();
-                                    dbContext.SaveChanges();
+                                    exists = true;
+                                    break;
                                 }
                             }
                         }
+                        if (!exists)
+                        {
+                            dbContext.AvailableCourses.Add(ac);
+                            Console.WriteLine("Press key to Add Courses");
+                            Console.ReadKey();
+                            dbContext.SaveChanges();
+                        }
                     }
                 }
-
-
-
             }
-
-
         }
 
         public void RandomActiveCourse()
@@ -172,14 +163,14 @@ namespace AssignmentPartB_April2021
             {
                 foreach (var student in students)
                 {
-                    int end = rnd.Next(1, 3);
                     var activeCourses = (
                                             from ac in dbContext.ActiveCourses
                                             select ac
                                         ).ToList();
 
-                    for (int i = 0; i < end; i++)
+                    for (int i = 0; i < 2; i++)
                     {
+                        exists = false;
                         ActiveCourse ac = new ActiveCourse();
                         ac.StudentID = student.ID;
                         var crs = courses[rnd.Next(0, courses.Count)];
@@ -188,32 +179,24 @@ namespace AssignmentPartB_April2021
 
                         foreach (var aCrs in activeCourses)
                         {
-                            if (ac.CourseID==aCrs.CourseID)
+                            if (ac.CourseID == aCrs.CourseID)
                             {
-                                if (ac.StudentID != aCrs.StudentID)
+                                if (ac.TrainerID == aCrs.TrainerID)
                                 {
-                                    Console.WriteLine("Doesn't exist");
-                                    dbContext.ActiveCourses.Add(ac);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Student ID and Course ID are the same");
-                                    break;
+                                    if (ac.StudentID == aCrs.StudentID)
+                                    {
+                                        exists = true;
+                                    }
                                 }
                             }
-                            else if (ac.CourseID != aCrs.CourseID)
-                            {
-                                Console.WriteLine("Doesn't exist");
-                                dbContext.ActiveCourses.Add(ac);
-                            }
-                            else if(ac.CourseID==aCrs.CourseID&&ac.StudentID==aCrs.StudentID)
-                            {
-                                Console.WriteLine("Student ID and Course ID are the same");
-                                break;
-                            }
-
                         }
-
+                        if (!exists)
+                        {
+                            dbContext.ActiveCourses.Add(ac);
+                            Console.WriteLine("Press key to Add Courses");
+                            Console.ReadKey();
+                            dbContext.SaveChanges();
+                        }
                     }
                 }
 
@@ -234,33 +217,98 @@ namespace AssignmentPartB_April2021
 
             foreach (var aCr in aCrs)
             {
+                exists = false;
                 ActiveAssignment aa = new ActiveAssignment();
                 aa.CourseID = aCr.CourseID;
                 aa.StudentID = aCr.StudentID;
                 aa.AssignmentID = 1; //final
                 aa.SubmissionDate = aCr.AvailableCourse.EndDate.Value.AddDays(-15);
-                
-                dbContext.ActiveAssignments.Add(aa);
+                aa.ActiveCourse = aCr;
 
-                if (aCr.AvailableCourse.Course.Type.Equals("Full Time"))
+                var assign = (
+                from ass in dbContext.ActiveAssignments
+                select ass
+                ).ToList();
+
+                foreach (var ass in assign)
                 {
+                    if (ass.CourseID == aa.CourseID)
+                    {
+                        if (ass.StudentID == aa.StudentID)
+                        {
+                            if (ass.AssignmentID == aa.AssignmentID)
+                            {
+                                exists = true;
+                            }
+                        }
+                    }
+                }
+                if (!exists)
+                {
+                    try
+                    {
+                        dbContext.ActiveAssignments.Add(aa);
+                        Console.WriteLine("Press key to Add Courses");
+                        Console.ReadKey();
+                        dbContext.SaveChanges();
+                    }
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                    {
+                        Console.WriteLine("Entity exists");
+                    }
+
+                }
+
+                if (aCr.AvailableCourse.Course.Type.Trim().Equals("Full Time"))
+                {
+                    exists = false;
                     ActiveAssignment ma = new ActiveAssignment();
                     ma.CourseID = aCr.CourseID;
                     ma.StudentID = aCr.StudentID;
-                    ma.AssignmentID = 1; //final
+                    ma.AssignmentID = 2; //final
                     ma.SubmissionDate = aCr.AvailableCourse.StartDate.Value.AddMonths(3);
 
-                    dbContext.ActiveAssignments.Add(ma);
+
+                    var assign2 = (
+                                    from ass in dbContext.ActiveAssignments
+                                    select ass
+                                    ).ToList();
+
+
+                    foreach (var ass in assign2)
+                    {
+                        if (ass.CourseID == ma.CourseID)
+                        {
+                            if (ass.StudentID == ma.StudentID)
+                            {
+                                if (ass.AssignmentID == ma.AssignmentID)
+                                {
+                                    exists = true;
+                                }
+                            }
+                        }
+                    }
+                    if (!exists)
+                    {
+                        try
+                        {
+                            dbContext.ActiveAssignments.Add(ma);
+                            Console.WriteLine("Press key to Add Courses");
+                            Console.ReadKey();
+                            dbContext.SaveChanges();
+                        }
+                        catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                        {
+                            Console.WriteLine("Entity exists");
+                        }
+
+                    }
 
                 }
 
 
 
             }
-            Console.WriteLine("Press key to Add Assignmnents");
-            Console.ReadKey();
-            dbContext.SaveChanges();
-
         }
     }
 }

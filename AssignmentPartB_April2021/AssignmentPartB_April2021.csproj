@@ -69,7 +69,6 @@
     </Compile>
     <Compile Include="CreateRelation.cs" />
     <Compile Include="CreateRow.cs" />
-    <Compile Include="DBCommandNControl.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="PrivateSchoolDBModel2.Context.cs">
       <AutoGen>True</AutoGen>

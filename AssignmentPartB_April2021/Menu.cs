@@ -184,7 +184,7 @@ namespace AssignmentPartB_April2021
                     Console.ReadKey();
                     return true;
                 case "3":
-                    tv.ViewStudentsPerCourse();
+                    tv.ViewStudentsMultipleCourses();
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();

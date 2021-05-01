@@ -53,25 +53,35 @@ namespace AssignmentPartB_April2021
                 CourseID = courseID,
                 TrainerID = trainerID,
                 StartDate = startDate,
-                EndDate = endDate
-                
+                EndDate = endDate                
             };
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Commit changes? y/n");
             Console.ResetColor();
             string input = Console.ReadLine().ToLower();
+            
             if (input.Equals("y"))
-            {            
-                dbContext.AvailableCourses.Add(ac);
-                dbContext.SaveChanges();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Changes saved to database.");
-                Console.ResetColor();
+            {
+                try
+                {
+                    dbContext.AvailableCourses.Add(ac);
+                    dbContext.SaveChanges();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Changes saved to database.");
+                    Console.ResetColor();
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Entity exists");
+                    Console.ResetColor();
+                }
+
             }
             else
             {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Changes not committed. Please retry.");
                 Console.ResetColor();
             }

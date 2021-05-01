@@ -227,43 +227,10 @@ namespace AssignmentPartB_April2021
             }
         }
 
-        //TODO 09: fix where in query
+        //TODO 09: View Trainers per Course
         public void ViewTrainersPerCourse()
         {
-            int input;
-            ViewAvailableCourses();
-            //Console.Write("Select a course by typing in the ID: ");
-            //input = int.Parse(Console.ReadLine());
-
-            //Console.Clear();
-
-            //var query =
-            //    (
-            //        from trainer in dbContext.Trainers
-            //        join availCourse in dbContext.AvailableCourses on trainer.ID equals availCourse.TrainerID
-            //        join crs in dbContext.Courses on availCourse.CourseID equals crs.ID
-            //        where availCourse.CourseID == input
-            //        orderby trainer.LastName
-            //        select new
-            //        {
-            //            crs.Title,
-            //            trainer.LastName,
-            //            trainer.FirstName,
-            //            trainer.Subject
-            //        }
-            //    ).ToList();
-
-            //counter = 1;
-
-            //Console.ForegroundColor = ConsoleColor.Yellow;
-            //Console.WriteLine("Trainers per Course");
-            //Console.WriteLine($"{"no",-2}  {"Course Title",-15}\t{"Last Name",-20}\t{"First Name",-15}\t{"Subject",-15}");
-            //Console.ResetColor();
-            //foreach (var item in query)
-            //{
-            //    Console.WriteLine($"{counter++,-2}  {item.Title,-15}\t{item.LastName,-20}\t{item.FirstName,-15}\t{item.Subject,-15}");
-            //}
-            //Console.WriteLine();
+            ViewAvailableCourses();            
         }
 
 
@@ -353,49 +320,70 @@ namespace AssignmentPartB_April2021
         {
             Console.Clear();
 
-            var availCrsID = (
+            var availCrsID =    (
                             from activeCourse in dbContext.ActiveCourses
-                            //join course in dbContext.Courses on availCourse.CourseID equals course.ID
-                            //orderby course.Title
-                            select activeCourse.CourseID
-                        ).Distinct().ToList();
+                            select activeCourse.AvailableCourse.Course.ID
+                                ).Distinct().ToList();
 
             counter = 1;
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Active Courses");
-            Console.WriteLine($"{"no",-2}  {"Course Title",-20}\t{"Last Name",-20}\t{"First Name",-15}\t{"Start Date",-15}\t{"End Date",-15}");
+            Console.WriteLine($"{"no",-2}  {"Course Title",-20}\t{"Start Date",-15}\t{"End Date",-15}");
             Console.ResetColor();
+
+            
             foreach (var id in availCrsID)
             {
-                
-                    var courseQuery = (
-                                        from activeCrs in dbContext.ActiveCourses
-                                        join availCrs in dbContext.AvailableCourses on activeCrs.CourseID equals availCrs.CourseID
-                                        join crs in dbContext.Courses on activeCrs.CourseID equals crs.ID
-                                        where crs.ID == id
-                                        select new
-                                        {
-                                            ActiveCourseID = activeCrs.ID,
-                                            Title = crs.Title,
-                                            Trainer = availCrs.Trainer,
-                                            StartDate = availCrs.StartDate,
-                                            EndDate = availCrs.EndDate
-                                        }
-                                       ).FirstOrDefault();
+                var courseQuery = (
+                                    from activecrs in dbContext.ActiveCourses
+                                    join availcrs in dbContext.AvailableCourses on activecrs.CourseID equals availcrs.CourseID
+                                    join crs in dbContext.Courses on activecrs.CourseID equals crs.ID
+                                    where crs.ID == id
+                                    select new
+                                    {
+                                        ActiveCourseID = activecrs.ID,
+                                        Title = crs.Title,
+                                        Trainer = availcrs.Trainer,
+                                        StartDate = availcrs.StartDate,
+                                        EndDate = availcrs.EndDate
+                                    }
+                                   ).FirstOrDefault();
 
-                    try
-                    {
-                        Console.WriteLine($"{counter++,-2}  {courseQuery.Title, -20}\t{courseQuery.Trainer.LastName, -20}\t{courseQuery.Trainer.FirstName, -15}" +
-                                          $"{courseQuery.StartDate.GetValueOrDefault(defaultValue: new DateTime(01/01/2020)).ToString("d"),-15}\t" +
-                                          $"{courseQuery.EndDate.GetValueOrDefault(defaultValue: new DateTime(01/06/2021)).ToString("d"),-15}");
-                    }
-                    catch (NullReferenceException)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"No Course with active ID {id} is available yet.");
-                        Console.ResetColor();
-                    }
+                try
+                {
+                    Console.WriteLine($"{counter++,-2}  {courseQuery.Title,-20}\t" +
+                                      $"{courseQuery.StartDate.GetValueOrDefault(defaultValue: new DateTime(01 / 01 / 2020)).ToString("d"),-15}\t" +
+                                      $"{courseQuery.EndDate.GetValueOrDefault(defaultValue: new DateTime(01 / 06 / 2021)).ToString("d"),-15}");
+                }
+                catch (NullReferenceException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"No Course with active ID {id} is available yet.");
+                    Console.ResetColor();
+                }
+            }
+
+        }
+
+        public void ViewStudentsMultipleCourses()
+        {
+            Console.Clear();
+            var students = (
+                                from stu in dbContext.Students
+                                where stu.ActiveCourses.Count > 1
+                                orderby stu.LastName, stu.FirstName
+                                select stu
+                            ).ToList();
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("STUDENTS WITH MULTIPLE COURSES");
+            Console.WriteLine($"{"no", -2} {"ID", -2}\t{"Last Name", -15}\t{"First Name", -15}\t{"Courses Count", -15}");
+            Console.ResetColor();
+
+            foreach (var stu in students)
+            {
+                Console.WriteLine($"{counter++,-2} {stu.ID,-2}\t{stu.LastName,-15}\t{stu.FirstName,-15}\t{stu.ActiveCourses.Count,-15}");
             }
         }
     }

@@ -225,7 +225,7 @@
           <Property Name="StudentID" Type="Int32" Nullable="false" />
           <Property Name="TrainerID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ActiveAssignments" Relationship="Self.FK_AssignmentsCoursesStudents_CoursesStudents" FromRole="ActiveCourses" ToRole="ActiveAssignments" />
-          <NavigationProperty Name="AvailableCours" Relationship="Self.FK_CoursesStudents_CoursesTrainers" FromRole="ActiveCourses" ToRole="AvailableCourses" />
+          <NavigationProperty Name="AvailableCourse" Relationship="Self.FK_CoursesStudents_CoursesTrainers" FromRole="ActiveCourses" ToRole="AvailableCourses" />
           <NavigationProperty Name="Student" Relationship="Self.FK_CoursesStudents_Students" FromRole="ActiveCourses" ToRole="Students" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
@@ -248,7 +248,7 @@
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="ActiveCourses" Relationship="Self.FK_CoursesStudents_CoursesTrainers" FromRole="AvailableCourses" ToRole="ActiveCourses" />
-          <NavigationProperty Name="Cours" Relationship="Self.FK_CoursesTrainers_Courses" FromRole="AvailableCourses" ToRole="Courses" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_CoursesTrainers_Courses" FromRole="AvailableCourses" ToRole="Courses" />
           <NavigationProperty Name="Trainer" Relationship="Self.FK_CoursesTrainers_Trainers" FromRole="AvailableCourses" ToRole="Trainers" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>

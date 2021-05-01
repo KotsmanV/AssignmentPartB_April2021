@@ -116,7 +116,9 @@ namespace AssignmentPartB_April2021
             ViewCourses();
 
             int input;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Select a course by typing in the ID: ");
+            Console.ResetColor();
             input = int.Parse(Console.ReadLine());
 
             var course = (
@@ -196,7 +198,7 @@ namespace AssignmentPartB_April2021
                                 aa.AssignmentID,
                                 aa.Assignment.Title,
                                 aa.CourseID,
-                                CourseTitle = aa.ActiveCourse.AvailableCours.Cours.Title,
+                                CourseTitle = aa.ActiveCourse.AvailableCourse.Course.Title,
                                 aa.SubmissionDate
                             }
                         ).ToList();
@@ -230,8 +232,8 @@ namespace AssignmentPartB_April2021
         {
             int input;
             ViewAvailableCourses();
-            Console.Write("Select a course by typing in the ID: ");
-            input = int.Parse(Console.ReadLine());
+            //Console.Write("Select a course by typing in the ID: ");
+            //input = int.Parse(Console.ReadLine());
 
             //Console.Clear();
 
@@ -272,7 +274,9 @@ namespace AssignmentPartB_April2021
 
 
             ViewAvailableCourses();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Select a course by typing in the ID: ");
+            Console.ResetColor();
             input = int.Parse(Console.ReadLine());           
             
 

@@ -14,6 +14,7 @@ namespace AssignmentPartB_April2021
         private readonly CreateRow cRow = new CreateRow();
         private readonly CreateRelation cRelation = new CreateRelation();
         //TODO 10: Create menus
+
         public bool MainMenu()
         {
             showMenu = true;
@@ -38,7 +39,7 @@ namespace AssignmentPartB_April2021
                     return true;
                 case "2":
                     while (showMenu)
-                        showMenu = CreateCourseMenu();
+                        showMenu = InsertDataMenu();
                     return true;
                 case "3":
                     return false;
@@ -183,9 +184,7 @@ namespace AssignmentPartB_April2021
                     Console.ReadKey();
                     return true;
                 case "3":
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Feature not yet available");
-                    Console.ResetColor();
+                    tv.ViewStudentsPerCourse();
 
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
@@ -196,6 +195,7 @@ namespace AssignmentPartB_April2021
                     return true;
             }
         }
+
         public bool ViewAssignments()
         {
             Console.Clear();
@@ -287,17 +287,93 @@ namespace AssignmentPartB_April2021
 
         private bool CreateAssignmentMenu()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            showMenu = true;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.WriteLine("CREATE ASSIGNMENT MENU");
+            Console.WriteLine("1. Insert new assignment type\n" +
+                              "2. Add assignment to course\n" +
+                              "3. Previous menu\n");
+            Console.Write("Please enter your choice: ");
+
+            input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    cRow.CreateAssignment();
+                    return true;
+                case "2":
+                    cRelation.CreateActiveAssignment();
+                    return true;
+                case "3":
+                    return false;
+                default:
+                    return true;
+            }
         }
 
         private bool CreateStudentMenu()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            showMenu = true;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.WriteLine("CREATE STUDENT MENU");
+            Console.WriteLine("1. Insert new student\n" +
+                              "2. Add students to course\n" +
+                              "3. Previous menu\n");
+            Console.Write("Please enter your choice: ");
+
+            input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    cRow.CreateStudent();
+                    return true;
+                case "2":
+                    cRelation.CreateActiveCourse();
+                    return true;
+                case "3":
+                    return false;
+                default:
+                    return true;
+            }
+
         }
 
         private bool CreateTrainerMenu()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            showMenu = true;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            Console.WriteLine("CREATE TRAINER MENU");
+            Console.WriteLine("1. Insert new trainer\n" +
+                              "2. Add trainers to course\n" +
+                              "3. Previous menu\n");
+            Console.Write("Please enter your choice: ");
+
+            input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    cRow.CreateTrainer();
+                    return true;
+                case "2":
+                    cRelation.CreateAvailableCourse();
+                    return true;
+                case "3":
+                    return false;
+                default:
+                    return true;
+            }
         }
 
         private bool CreateCourseMenu()

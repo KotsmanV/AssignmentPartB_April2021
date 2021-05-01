@@ -74,10 +74,12 @@ namespace AssignmentPartB_April2021
                                 from tr in dbContext.Trainers
                                 select tr
                             ).ToList();
+
             var courses = (
                             from cr in dbContext.Courses
                             select cr
                             ).ToList();
+
             foreach (var trainer in trainers)
             {
                 foreach (var course in courses)
@@ -93,13 +95,24 @@ namespace AssignmentPartB_April2021
                         AvailableCourse ac = new AvailableCourse();
                         ac.TrainerID = trainer.ID;
                         ac.CourseID = course.ID;
+
+                        ac.Course = (
+                                    from crs in dbContext.Courses
+                                    where crs.ID == course.ID
+                                    select crs
+                                    ).FirstOrDefault();
+                        ac.Trainer = (
+                                        from tr in dbContext.Trainers
+                                        where tr.ID == trainer.ID
+                                        select tr
+                                     ).FirstOrDefault();
                         
-                        if (course.Type.Equals("Full Time"))
+                        if (ac.Course.Type.Equals("Full Time"))
                         {
                             ac.StartDate = dates[0];
                             ac.EndDate = dates[2];
                         }
-                        else if(course.Type.Equals("Part Time"))
+                        else if(ac.Course.Type.Equals("Part Time"))
                         {
                             ac.StartDate = dates[rnd.Next(0, 1)];
                             if (ac.StartDate.Equals(dates[0]))
@@ -117,21 +130,25 @@ namespace AssignmentPartB_April2021
                                 if (avC.TrainerID!=ac.CourseID)
                                 {
                                     dbContext.AvailableCourses.Add(ac);
+                                    Console.WriteLine("Press key to Add Courses");
+                                    Console.ReadKey();
+                                    dbContext.SaveChanges();
                                 }
                             }
                             else if (avC.TrainerID==ac.TrainerID)
                             {
-                                if (avC.CourseID==ac.CourseID)
+                                if (avC.CourseID!=ac.CourseID)
                                 {
                                     dbContext.AvailableCourses.Add(ac);
+                                    Console.WriteLine("Press key to Add Courses");
+                                    Console.ReadKey();
+                                    dbContext.SaveChanges();
                                 }
                             }
                         }
                     }
                 }
-                Console.WriteLine("Press key to Add Courses");
-                Console.ReadKey();
-                dbContext.SaveChanges();
+
 
 
             }
@@ -221,17 +238,17 @@ namespace AssignmentPartB_April2021
                 aa.CourseID = aCr.CourseID;
                 aa.StudentID = aCr.StudentID;
                 aa.AssignmentID = 1; //final
-                aa.SubmissionDate = aCr.AvailableCours.EndDate.Value.AddDays(-15);
+                aa.SubmissionDate = aCr.AvailableCourse.EndDate.Value.AddDays(-15);
                 
                 dbContext.ActiveAssignments.Add(aa);
 
-                if (aCr.AvailableCours.Cours.Type.Equals("Full Time"))
+                if (aCr.AvailableCourse.Course.Type.Equals("Full Time"))
                 {
                     ActiveAssignment ma = new ActiveAssignment();
                     ma.CourseID = aCr.CourseID;
                     ma.StudentID = aCr.StudentID;
                     ma.AssignmentID = 1; //final
-                    ma.SubmissionDate = aCr.AvailableCours.StartDate.Value.AddMonths(3);
+                    ma.SubmissionDate = aCr.AvailableCourse.StartDate.Value.AddMonths(3);
 
                     dbContext.ActiveAssignments.Add(ma);
 

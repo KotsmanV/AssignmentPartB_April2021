@@ -15,6 +15,12 @@ namespace AssignmentPartB_April2021
             //TODO 16: Fix random courses
             //TODO 17: Fix random assignments
             //TODO 18: Fix random data in general
+            //TODO 19: Duplicate data exception
+            
+            //TODO 20: String format
+            //TODO 21: Dates
+            //TODO 22: Tuition fees
+
 
             RandomDataGenerator rDG = new RandomDataGenerator();
             //for (int i = 0; i < 24; i++)

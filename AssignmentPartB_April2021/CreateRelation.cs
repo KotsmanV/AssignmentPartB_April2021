@@ -25,18 +25,27 @@ namespace AssignmentPartB_April2021
 
             tv.ViewCourses();
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Select a Course by typing the ID: ");
             courseID = int.Parse(Console.ReadLine());
+            Console.ResetColor();
 
             tv.ViewTrainers();
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Select a Trainer by typing the ID: ");
+            Console.ResetColor();
             trainerID = int.Parse(Console.ReadLine());
-            
-            Console.WriteLine("Starting Date: ");
+
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Starting Date: ");
+            Console.ResetColor();
             startDate = DateTime.Parse(Console.ReadLine());
-            
+
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Ending Date: ");
+            Console.ResetColor();
             endDate = DateTime.Parse(Console.ReadLine());
 
             AvailableCourse ac = new AvailableCourse()
@@ -48,16 +57,25 @@ namespace AssignmentPartB_April2021
                 
             };
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Commit changes? y/n");
+            Console.ResetColor();
             string input = Console.ReadLine().ToLower();
             if (input.Equals("y"))
             {            
                 dbContext.AvailableCourses.Add(ac);
                 dbContext.SaveChanges();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Changes saved to database.");
+                Console.ResetColor();
             }
             else
+            {
+                    Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Changes not committed. Please retry.");
+                Console.ResetColor();
+            }
+
             Console.ReadKey();
 
         }
@@ -75,7 +93,10 @@ namespace AssignmentPartB_April2021
             List<int> userIDs = new List<int>();
 
             tv.ViewAvailableCourses();
+
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Select a Course by typing the ID: ");
+            Console.ResetColor();
             courseID = int.Parse(Console.ReadLine());
             var availableCourse = dbContext.AvailableCourses.Where(ac => ac.ID == courseID).FirstOrDefault();
 
@@ -85,10 +106,14 @@ namespace AssignmentPartB_April2021
 
                 tv.ViewStudents();
 
-                Console.WriteLine("Pick a student by typing in the ID: ");
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Any other key stops the process.");
+                Console.Write("Pick a student by typing in the ID: ");
+
+                Console.ResetColor();
                 strInput = Console.ReadLine();
                 isInt = int.TryParse(strInput, out int output);
+
                 if (output > 0)
                 {
                     studentID = output;
@@ -110,15 +135,24 @@ namespace AssignmentPartB_April2021
                 dbContext.ActiveCourses.Add(activeCourse);
             }
 
-            Console.WriteLine("Commit changes? y/n");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Commit changes? y/n ");
+            Console.ResetColor();
             string input = Console.ReadLine().ToLower();
             if (input.Equals("y"))
             {
                 dbContext.SaveChanges();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Changes saved to database.");
+                Console.ResetColor();
             }
             else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Changes not committed. Please retry.");
+                Console.ResetColor();
+            }
+
             Console.ReadKey();
             
 
@@ -134,9 +168,11 @@ namespace AssignmentPartB_April2021
 
             tv.ViewActiveCourses();
 
-
-            Console.WriteLine("Select a Course by typing the Title: ");
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Be exact in typing");
+            Console.Write("Select a Course by typing the Title: ");
+
+            Console.ResetColor();
             courseTitle = Console.ReadLine();
 
             var activeCourses = (
@@ -148,7 +184,10 @@ namespace AssignmentPartB_April2021
                          ).ToList();
 
             tv.ViewAssignments();
-            Console.WriteLine("Select an assignment type by typing in the ID");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Select an assignment type by typing in the ID:");
+            Console.ResetColor();
             assignmentID = int.Parse(Console.ReadLine());
             var assignment = (
                                 from ass in dbContext.Assignments
@@ -156,7 +195,9 @@ namespace AssignmentPartB_April2021
                                 select ass
                               ).FirstOrDefault();
 
-            Console.Write("Input Submission Date (yyyy/mm/dd): ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Input Submission Date: ");
+            Console.ResetColor();
             DateTime subDate = DateTime.Parse(Console.ReadLine());
 
             foreach (var activeCourse in activeCourses)
@@ -171,16 +212,24 @@ namespace AssignmentPartB_April2021
                 dbContext.ActiveAssignments.Add(activeAssignment);
             }
 
-
-            Console.WriteLine("Commit changes? y/n");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Commit changes? y/n ");
+            Console.ResetColor();
             string input = Console.ReadLine().ToLower();
             if (input.Equals("y"))
             {
                 dbContext.SaveChanges();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Changes saved to database.");
+                Console.ResetColor();
             }
             else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Changes not committed. Please retry.");
+                Console.ResetColor();
+            }
+
             Console.ReadKey();
 
         }

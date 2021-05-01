@@ -28,7 +28,7 @@ namespace AssignmentPartB_April2021
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ActiveCourse> ActiveCourses { get; set; }
-        public virtual Course Cours { get; set; }
+        public virtual Course Course { get; set; }
         public virtual Trainer Trainer { get; set; }
     }
 }
